@@ -98,7 +98,6 @@ jobs:
           git clone --depth 1 -b ${{ github.event.inputs.REPO_BRANCH }} https://github.com/armbian/build.git armbian-build
           cd armbian-build
       - name: Build Armbian
-        working-directory: ./armbian-build
         id: build
         run: |
           sudo df -h
