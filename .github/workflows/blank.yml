@@ -91,6 +91,8 @@ jobs:
     name: "Build Armbian"
     runs-on: ubuntu-24.04-arm
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Download Armbian Soure
         run: |
           git clone --depth 1 -b ${{ github.event.inputs.REPO_BRANCH }} https://github.com/armbian/build.git armbian-build
@@ -103,6 +105,6 @@ jobs:
           echo "------------"
           ls ${GITHUB_WORKSPACE}
           echo "-------------"
-          ls ${{ github.workspace }}
+          ls 
 
             
