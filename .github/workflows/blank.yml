@@ -96,9 +96,10 @@ jobs:
       - name: Download Armbian Soure
         run: |
           git clone --depth 1 -b ${{ github.event.inputs.REPO_BRANCH }} https://github.com/armbian/build.git armbian-build
-          cd armbian-build
+          # cd armbian-build
       - name: Build Armbian
         id: build
+        working-directory: ./armbian-build
         run: |
           sudo df -h
           echo "------------"
