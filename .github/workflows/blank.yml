@@ -1,0 +1,105 @@
+name: Build Ubuntu24.04 armserver
+on:
+  workflow_dispatch:
+    inputs:
+      BOARD:
+        description: 'Board to build for'
+        required: true
+        default: 'odroidn2'
+        type: string
+      REPO_BRANCH:
+        description: 'Armbian build repository branch'
+        required: true
+        default: 'main'
+        type: string
+      RELEASE:
+        description: 'Release name'
+        required: true
+        default: 'bookworm'
+        type: choice
+        options:
+          - 'bookworm'
+          - 'bullseye'
+          - 'buster'
+          - 'focal'
+          - 'jammy'
+          - 'noble'
+          - 'oracular'
+          - 'plucky'
+          - 'sid'
+          - 'trixie'
+      BUILD_MINIMAL:
+        description: 'Build minimal image'
+        required: true
+        default: 'yes'
+        type: choice
+        options:
+          - 'yes'
+          - 'no'
+      BRANCH:
+        description: 'Build branch'
+        required: true
+        default: 'current'
+        type: choice
+        options:
+          - 'current'
+          - 'edge'
+          - 'vendor'
+          - 'legacy'
+      BUILD_DESKTOP:
+        description: 'Build desktop image'
+        required: true
+        default: 'no'
+        type: choice
+        options:
+          - 'yes'
+          - 'no'
+      COMPRESS_OUTPUTIMAGE:
+        description: 'Compress output image'
+        required: true
+        default: 'zstd'
+        type: choice
+        options:
+          - 'xz'
+          - 'gz'
+          - 'bz2'
+          - 'lz4'
+          - 'lzma'
+          - 'zstd'
+          - 'no'
+      INSTALL_HEADERS:
+        description: 'Install headers'
+        required: true
+        default: 'no'
+        type: choice
+        options:
+          - 'yes'
+          - 'no'
+      KERNEL_GIT:
+        description: 'Kernel_git'
+        required: true
+        default: 'shallow'
+        type: choice
+        options:
+          - 'full'
+          - 'shallow'
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
+jobs:
+  build-armbian:
+    name: "Build Armbian"
+    runs-on: ubuntu-24.04-arm
+    steps:
+      - name: Download Armbian Soure
+        run: |
+          git clone --depth 1 -b ${{ github.event.inputs.REPO_BRANCH }} https://github.com/armbian/build.git armbian-build
+          cd armbian-build
+      - name: Build Armbian
+        working-directory: ./armbian-build
+        id: build
+        run: |
+          sudo df -h
+          ls ${GITHUB_WORKSPACE}
+
+            
