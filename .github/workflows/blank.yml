@@ -100,6 +100,9 @@ jobs:
         id: build
         run: |
           sudo df -h
+          echo "------------"
           ls ${GITHUB_WORKSPACE}
+          echo "-------------"
+          ls ${{ github.workspace }}
 
             
